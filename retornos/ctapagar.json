@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "condominio": {
+            "id": 2,
+            "nome": "Sao Joao",
+            "cnpj": "12.342.554/0001-99",
+            "contato": "(51)9980.29844"
+        },
+        "data": "2017-04-30",
+        "historico": "SALDO ANTERIOR",
+        "debito": 10692.3,
+        "credito": 0,
+        "saldo": 10692.3,
+        "observacao": null,
+        "docValido": "sim",
+        "comprovPgto": "sim",
+        "pendente": "nao"
+    },
+    {
+        "id": 2,
+        "condominio": {
+            "id": 2,
+            "nome": "Sao Joao",
+            "cnpj": "12.342.554/0001-99",
+            "contato": "(51)9980.29844"
+        },
+        "data": "2017-05-04",
+        "historico": "pg.agua",
+        "debito": 10234,
+        "credito": 0,
+        "saldo": 10234,
+        "observacao": null,
+        "docValido": "sim",
+        "comprovPgto": "sim",
+        "pendente": "nao"
+    }
+]

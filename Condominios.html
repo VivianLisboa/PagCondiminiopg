@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B"
+    crossorigin="anonymous">
+
+
+  <title>Condominios</title>
+</head>
+
+<body>
+  <nav class="  navbar navbar-expand-sm navbar-dark bg-dark">
+    <div class="container">
+      <a href="#" class="navbar-brand">AudiCond</a>
+      <button type="button" class="navbar-toggler">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class=" row justify-content-end collapse navbar-collapse " id="">
+        <ul class=" navbar-nav mr-left">
+          <ul class=" navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a href="home.html" class="nav-link">Home</a>
+            </li>
+            <li class=" nav-item active">
+              <a href="Condominios.html" class="nav-link">Condominios</a>
+            </li>
+            <li class=" nav-item ">
+              <a href="CtaPagar.html" class="nav-link">Contas Pagar</a>
+            </li>
+          </ul>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container" id="cadastro">
+    <div class="row">
+    </div>
+    <div class="row">
+
+      <div class="container">
+        <div class="row justify-content-left justify-content-md-start">
+          <!--tela super peq 12, small(peq) 8, media 4-->
+          <div class="col-12 col-sm-8 col-md-4">
+            <form action="">
+            </form>
+          </div>
+          <div class=" justify-content-left col-md-6">
+            <form action="">
+
+              <input type="hidden" class="form-control" id="id" v-model="id" aria-describedby="id">
+
+              <div class="form-row">
+                <label for="">Nome</label>
+                <input type="text" class="form-control" id="nome" v-model="nome" aria-describedby="nome" placeholder="">
+              </div>
+
+
+              <div class="form-group">
+                <label for="">CNPJ</label>
+                <input type="text" class="form-control" id="cnpj" v-model="cnpj" aria-describedby="cnpj" placeholder="">
+              </div>
+
+              <div class="form-group">
+                <label for="">Contato</label>
+                <input type="text" class="form-control" id="contato" v-model="contato" aria-describedby="contato" placeholder="">
+              </div>
+
+
+
+              <button type="button" class=" btn btn-primary  btn-block" @Click.prevent="addItem">Gravar</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Nome</th>
+          <th scope="col">CNPJ</th>
+          <th scope="col">Contato</th>
+          <th scope="col">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="p,index in cadastro">
+          <td>[[ p.id ]]</td>
+          <td>[[ p.nome ]]</td>
+          <td>[[ p.cnpj ]]</td>
+          <td>[[ p.contato ]]</td>
+          <td>
+
+            <td>
+              <button class="btn btn-success" @click.prevent="editItem(index)">Editar</button>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <footer>
+    <div class="fixed-bottom bg-dark text-white">
+      <p class="text-center">Curso de TI - Fundatec @ 2019</p>
+    </div>
+  </footer>
+
+
+
+  <!-- Foi colocado no final para a página carregar mais rápido -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+  <script src="http://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="http://unpkg.com/axios/dist/axios.min.js"></script>
+
+
+  <script>
+    const app = new Vue({
+
+      el: '#cadastro',
+      delimiters: ["[[", "]]"],
+      data: {
+        url: "http://localhost:8080/vivi/condominiopg",
+        cadastro: [], //Array
+        //dadosiniciais: json,
+        condominio: {},  //Objetos
+        id: '',
+        nome: '',
+        cnpj: '',
+        contato: ''
+      },
+      methods: {
+        addItem() {
+          if (this.nome != '') {
+            if (this.id != '' || this.id != 0) {
+              //console.log('id existe. Edição....');
+            } else {
+              //console.log('id não existe. Inserção....');
+              let idmax = Math.max.apply(Math, this.cadastro.map(function (o) { return o.id; }));
+              console.log('ids ', idmax);
+              this.id = idmax + 1;
+            }
+            this.condominio = {
+              "id": this.id,
+              "nome": this.nome,
+              "cnpj": this.cnpj,
+              "contato": this.contato
+            };
+            this.cadastro.push(this.condominio);
+            this.condominio = {};
+            this.id = '';
+            this.nome = '';
+            this.cnpj = '';
+            this.contato = '';
+          } else {
+            console.log('Dados vazios!');
+          }
+
+          axios.post('http://localhost:8080/vivi/condominiopg', {
+            nome: this.nome,
+            cnpj: this.cnpj,
+            contato:this.contato
+          })
+            .then(function (response) {
+              console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
+
+        },
+        editItem(index) {
+          this.id = this.cadastro[index].id;
+          this.nome = this.cadastro[index].nome;
+          this.cnpj = this.cadastro[index].cnpj;
+          this.contato = this.cadastro[index].contato;
+          this.cadastro.splice(index, 1);
+
+          /*axios.get(this.url).then((response) => {
+            const dados = response.data;
+            //console.log(dados);
+            let tam = dados.length;
+            for(let i=0; i<tam ; i++){
+              console.log(dados[i]);
+              this.cadastro.push(dados[i]);
+          }
+          }).catch((error) => {
+            console.log('ERR: ' + error);
+          }); // axios*/
+
+        },
+
+        getCondominio() {
+          axios.get(this.url).then((response) => {
+            const dados = response.data;
+            //console.log(dados);
+            let tam = dados.length;
+            for (let i = 0; i < tam; i++) {
+              console.log(dados[i]);
+              this.cadastro.push(dados[i]);
+            }
+          }).catch((error) => {
+            console.log('ERR: ' + error);
+          }); // axios
+
+        } // getCondominio
+      },
+      mounted() {
+        this.getCondominio();
+      }
+    });
+
+
+
+
+
+  </script>
+</body>
+
+</html>
